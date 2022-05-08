@@ -2,7 +2,7 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.os.Bundle;
-import android.widget.TextView;
+
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
