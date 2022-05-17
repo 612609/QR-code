@@ -35,6 +35,7 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
     private Button save;
     private ImageView qrCode;
     Button SaveCode;
+    private Bitmap bitmapQrCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +94,9 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
         BitMatrix bitMatrix =multiFormatWriter.encode(edit_code.getText().toString(), BarcodeFormat.QR_CODE,350,300);
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-        qrCode.setImageBitmap(bitmap);
+        qrCode.setImageBitmap(bitmapQrCode);
     }
     private void SaveToGallery(){
-        BitmapDrawable bitmapDrawable=(BitmapDrawable) qrCode.getDrawable();
-        Bitmap bitmap= bitmapDrawable.getBitmap();
         FileOutputStream outputStream= null;
         File file =Environment.getExternalStorageDirectory();
         File dir=new File(file.getAbsolutePath()+"/MyPics");
@@ -105,19 +104,15 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
         String filename = String.format("%d.png",System.currentTimeMillis());
         File outFile=new File(dir,filename);
         try {
-            outputStream=new FileOutputStream(outFile);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        try {
+            outputStream = new FileOutputStream(outFile);
+            if (bitmapQrCode != null) {
+                bitmapQrCode.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            } else {
+                // show toast!!
+            }
             outputStream.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        try {
             outputStream.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
