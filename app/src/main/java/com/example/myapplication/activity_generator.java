@@ -6,8 +6,10 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +31,7 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
     private ImageView qrCode;
     Button SaveCode;
     private Bitmap bitmapQrCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,23 +93,26 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
         qrCode.setImageBitmap(bitmapQrCode);
     }
     private void SaveToGallery(){
-        FileOutputStream outputStream= null;
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()+ "/Camera";
+        FileOutputStream outputStream;
         File file =Environment.getExternalStorageDirectory();
-        File dir=new File(file.getAbsolutePath()+"/MyPics");
+        File dir=new File(root);
         dir.mkdirs();
         String filename = String.format("%d.png",System.currentTimeMillis());
         File outFile=new File(dir,filename);
+        System.out.println(outFile.getAbsolutePath());
+        if (file.exists()) file.delete();
+        Log.i("LOAD", root + filename);
         try {
             outputStream = new FileOutputStream(outFile);
             if (bitmapQrCode != null) {
-                bitmapQrCode.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            } else {
-                // show toast!!
+            bitmapQrCode.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             }
             outputStream.flush();
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }
