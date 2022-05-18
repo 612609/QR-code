@@ -1,21 +1,17 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.SharedValues;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -24,10 +20,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 public class activity_generator extends AppCompatActivity implements View.OnClickListener {
     private EditText edit_code;
@@ -97,7 +90,7 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
         qrCode.setImageBitmap(bitmapQrCode);
     }
     private void SaveToGallery(){
-        FileOutputStream outputStream;
+        FileOutputStream outputStream= null;
         File file =Environment.getExternalStorageDirectory();
         File dir=new File(file.getAbsolutePath()+"/MyPics");
         dir.mkdirs();
