@@ -97,7 +97,7 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
         qrCode.setImageBitmap(bitmapQrCode);
     }
     private void SaveToGallery(){
-        FileOutputStream outputStream;
+        FileOutputStream outputStream= null;
         File file =Environment.getExternalStorageDirectory();
         File dir=new File(file.getAbsolutePath()+"/MyPics");
         dir.mkdirs();
