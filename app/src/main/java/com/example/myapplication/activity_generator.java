@@ -29,8 +29,6 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
     Button generator;
     private Button save;
     private ImageView qrCode;
-    Button SaveCode;
-    private Bitmap bitmapQrCode;
 
 
     @Override
@@ -41,15 +39,6 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
         generator.setOnClickListener(this);
         init();
         qrCode=(ImageView) findViewById(R.id.qr_code);
-        SaveCode=(Button) findViewById(R.id.SaveCode);
-        ActivityCompat.requestPermissions(activity_generator.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        ActivityCompat.requestPermissions(activity_generator.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        SaveCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SaveToGallery();
-            }
-        });
     }
 
     @Override
@@ -91,28 +80,5 @@ public class activity_generator extends AppCompatActivity implements View.OnClic
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         Bitmap bitmapQrCode = barcodeEncoder.createBitmap(bitMatrix);
         qrCode.setImageBitmap(bitmapQrCode);
-    }
-    private void SaveToGallery(){
-        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()+ "/Camera";
-        FileOutputStream outputStream;
-        File file =Environment.getExternalStorageDirectory();
-        File dir=new File(root);
-        dir.mkdirs();
-        String filename = String.format("%d.png",System.currentTimeMillis());
-        File outFile=new File(dir,filename);
-        System.out.println(outFile.getAbsolutePath());
-        if (file.exists()) file.delete();
-        Log.i("LOAD", root + filename);
-        try {
-            outputStream = new FileOutputStream(outFile);
-            if (bitmapQrCode != null) {
-            bitmapQrCode.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            }
-            outputStream.flush();
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 }
